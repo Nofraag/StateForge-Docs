@@ -53,13 +53,53 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#welcome-to-mkdocs" class="nav-link">Welcome to MkDocs</a>
+            <li class="nav-item" data-bs-level="1"><a href="#hybrid-state-machine-documentation" class="nav-link">Hybrid State Machine — Documentation</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#commands" class="nav-link">Commands</a>
+            <li class="nav-item" data-bs-level="2"><a href="#table-of-contents" class="nav-link">Table of Contents</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#project-layout" class="nav-link">Project layout</a>
+            <li class="nav-item" data-bs-level="2"><a href="#core-concepts" class="nav-link">Core Concepts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#creating-a-state" class="nav-link">Creating a State</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#stateentry" class="nav-link">StateEntry</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#subscribing-vs-setting-states" class="nav-link">Subscribing vs Setting States</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#state-bindings" class="nav-link">State Bindings</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#built-in-bindings" class="nav-link">Built-in Bindings</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#illegal-states-weight-system" class="nav-link">Illegal States &amp; Weight System</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#oneshot-cooldown" class="nav-link">OneShot &amp; Cooldown</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#managing-bindings-at-runtime" class="nav-link">Managing Bindings at Runtime</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#the-inspector" class="nav-link">The Inspector</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api-reference" class="nav-link">API Reference</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -70,21 +110,365 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre></div>
+<h1 id="hybrid-state-machine-documentation">Hybrid State Machine — Documentation</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#core-concepts">Core Concepts</a></li>
+<li><a href="#creating-a-state">Creating a State</a></li>
+<li><a href="#stateentry">StateEntry</a></li>
+<li><a href="#subscribing-vs-setting-states">Subscribing vs Setting States</a></li>
+<li><a href="#state-bindings">State Bindings</a></li>
+<li><a href="#built-in-bindings">Built-in Bindings</a></li>
+<li><a href="#illegal-states--weight-system">Illegal States &amp; Weight System</a></li>
+<li><a href="#oneshot--cooldown">OneShot &amp; Cooldown</a></li>
+<li><a href="#managing-bindings-at-runtime">Managing Bindings at Runtime</a></li>
+<li><a href="#the-inspector">The Inspector</a></li>
+<li><a href="#api-reference">API Reference</a></li>
+</ol>
+<hr />
+<h2 id="core-concepts">Core Concepts</h2>
+<p>Hybrid State Machine works around four building blocks:</p>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>State</code></td>
+<td>A behaviour your object can be in</td>
+</tr>
+<tr>
+<td><code>StateEntry</code></td>
+<td>Settings for how a state activates</td>
+</tr>
+<tr>
+<td><code>StateBinding</code></td>
+<td>A condition that decides if a state should be active</td>
+</tr>
+<tr>
+<td><code>StateMachine</code></td>
+<td>The MonoBehaviour component that runs everything</td>
+</tr>
+</tbody>
+</table>
+<p>States can be active at the same time — this is not a traditional "one state at a time" machine. For example a character can be <code>Focused</code>, <code>Crouching</code>, and <code>Reloading</code> simultaneously, as long as none of them conflict with each other.</p>
+<hr />
+<h2 id="creating-a-state">Creating a State</h2>
+<p>Inherit from <code>State</code> and implement the required members:</p>
+<pre><code class="language-csharp">public class FocusedState : State
+{
+    // how much priority this state has in conflict resolution
+    public override float stateWeight =&gt; 0.5f;
+
+    // states that cannot be active at the same time as this one
+    public override List&lt;State&gt; illegalStates =&gt; new List&lt;State&gt;
+    {
+        new SprintingState()
+    };
+
+    public override void OnAdd()     =&gt; Debug.Log(&quot;Focused started.&quot;);
+    public override void OnRemoval() =&gt; Debug.Log(&quot;Focused ended.&quot;);
+    public override void OnUpdate()  =&gt; Debug.Log(&quot;Focusing...&quot;);
+}
+</code></pre>
+<p><strong>Lifecycle methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>When it's called</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OnAdd()</code></td>
+<td>Once, when the state becomes active</td>
+</tr>
+<tr>
+<td><code>OnRemoval()</code></td>
+<td>Once, when the state is deactivated</td>
+</tr>
+<tr>
+<td><code>OnUpdate()</code></td>
+<td>Every Unity Update while the state is active</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>stateWeight</code></strong> is required. It determines who wins when two conflicting states compete. See <a href="#illegal-states--weight-system">Illegal States &amp; Weight System</a>.</p>
+<p><strong><code>illegalStates</code></strong> is optional. Leave it empty if this state has no conflicts.</p>
+<hr />
+<h2 id="stateentry">StateEntry</h2>
+<p><code>StateEntry</code> defines the settings for how a state should behave when subscribed to the machine.</p>
+<pre><code class="language-csharp">new StateEntry
+{
+    bindings = new List&lt;StateBinding&gt; { ... }, // what triggers this state
+    oneShot  = false,                          // remove permanently after first use?
+    cooldown = 0f,                             // seconds before it can activate again
+}
+</code></pre>
+<blockquote>
+<p>You don't need to set <code>state</code> or <code>elapsedCooldown</code> — the state machine handles those internally.</p>
+</blockquote>
+<hr />
+<h2 id="subscribing-vs-setting-states">Subscribing vs Setting States</h2>
+<p>There are two ways to activate a state:</p>
+<h3 id="subscribestate-event-driven"><code>subscribeState</code> — event driven</h3>
+<p>Ties a state to bindings. The machine checks every Update and activates or deactivates the state automatically based on the binding conditions.</p>
+<pre><code class="language-csharp">stateMachine.subscribeState(
+    new FocusedState(),
+    new StateEntry
+    {
+        bindings = new List&lt;StateBinding&gt;
+        {
+            new InputBinding(input.actions[&quot;RightClick&quot;])
+        }
+    }
+);
+</code></pre>
+<p>Use this for states that should turn on and off automatically based on input or conditions.</p>
+<h3 id="setstate-manual"><code>setState</code> — manual</h3>
+<p>Activates a state directly without any binding. The state stays active until you manually call <code>removeState</code>.</p>
+<pre><code class="language-csharp">stateMachine.setState(new FocusedState());
+</code></pre>
+<p>Use this for states you want full manual control over, like a cutscene state or a death state.</p>
+<hr />
+<h2 id="state-bindings">State Bindings</h2>
+<p>A <code>StateBinding</code> is a condition that the machine evaluates every Update to decide if a subscribed state should be active or not.</p>
+<p>To create a custom binding, inherit from <code>StateBinding</code> and implement two methods:</p>
+<pre><code class="language-csharp">public class HealthBinding : StateBinding
+{
+    // the condition — return true to activate the state
+    public override bool Evaluate()
+    {
+        return machine.GetComponent&lt;Health&gt;().current &lt; 20f;
+    }
+
+    // what the inspector shows for this binding
+    public override string Transcript()
+    {
+        return &quot;Health below 20.&quot;;
+    }
+}
+</code></pre>
+<p><code>machine</code> is automatically available inside any binding — it's the <code>StateMachine</code> component the binding is attached to.</p>
+<h3 id="and-logic-bindingfolder">AND Logic — BindingFolder</h3>
+<p>To require multiple conditions at once, wrap them in a <code>BindingFolder</code>:</p>
+<pre><code class="language-csharp">new BindingFolder(new List&lt;StateBinding&gt;
+{
+    new InputBinding(input.actions[&quot;RightClick&quot;]),
+    new InputBinding(input.actions[&quot;Aim&quot;])
+})
+</code></pre>
+<p>This only returns true if <strong>all</strong> bindings inside evaluate to true.</p>
+<hr />
+<h2 id="built-in-bindings">Built-in Bindings</h2>
+<h3 id="inputbinding"><code>InputBinding</code></h3>
+<p>Activates when a Unity Input System action is held down.</p>
+<pre><code class="language-csharp">new InputBinding(input.actions[&quot;RightClick&quot;])
+// Transcript: &quot;RightClick is Pressed.&quot;
+</code></pre>
+<p>Requires the <strong>Unity Input System</strong> package.</p>
+<hr />
+<h3 id="conditionbinding"><code>ConditionBinding</code></h3>
+<p>A flexible binding that delegates to a <code>Condition</code> class you implement yourself. Useful when the logic is complex or reusable.</p>
+<pre><code class="language-csharp">public class LowHealthCondition : Condition
+{
+    public override bool Evaluate(StateMachine machine)
+    {
+        return machine.GetComponent&lt;Health&gt;().current &lt; 20f;
+    }
+
+    public override string Transcript() =&gt; &quot;Health below 20.&quot;;
+}
+
+// usage
+new ConditionBinding(new LowHealthCondition())
+</code></pre>
+<p>Use this over a raw custom <code>StateBinding</code> when you want to reuse the same condition across multiple states or projects.</p>
+<hr />
+<h3 id="timedbinding"><code>TimedBinding</code></h3>
+<p>Activates for a set duration, then deactivates and resets automatically.</p>
+<pre><code class="language-csharp">new TimedBinding(3f)
+// active for 3 seconds, then resets
+// Transcript: &quot;Active for 3s, elapsed 1.2s&quot;
+</code></pre>
+<p>You can also reset the timer manually:</p>
+<pre><code class="language-csharp">TimedBinding timed = new TimedBinding(3f);
+timed.Reset();
+</code></pre>
+<hr />
+<h3 id="bindingfolder"><code>BindingFolder</code></h3>
+<p>Groups multiple bindings together with AND logic — all must be true for the state to activate.</p>
+<pre><code class="language-csharp">new BindingFolder(new List&lt;StateBinding&gt;
+{
+    new InputBinding(input.actions[&quot;RightClick&quot;]),
+    new InputBinding(input.actions[&quot;Aim&quot;])
+})
+// Transcript: &quot;RightClick is Pressed., Aim is Pressed.&quot;
+</code></pre>
+<hr />
+<h2 id="illegal-states-weight-system">Illegal States &amp; Weight System</h2>
+<p>Illegal states are states that <strong>cannot be active at the same time</strong>. When two conflicting states compete, <code>stateWeight</code> decides the winner — the higher weight wins.</p>
+<pre><code class="language-csharp">public class FocusedState : State
+{
+    public override float stateWeight =&gt; 0.5f;
+
+    public override List&lt;State&gt; illegalStates =&gt; new List&lt;State&gt;
+    {
+        new SprintingState()
+    };
+}
+
+public class SprintingState : State
+{
+    public override float stateWeight =&gt; 0.6f;
+}
+</code></pre>
+<p>In this example, if <code>SprintingState</code> tries to activate while <code>FocusedState</code> is active:
+- <code>SprintingState</code> (0.6) <strong>&gt;</strong> <code>FocusedState</code> (0.5) → Sprinting wins, Focused is removed
+- If the weights were reversed, Sprinting would be blocked entirely</p>
+<blockquote>
+<p><strong>Important:</strong> only the state that is trying to activate needs to list the conflict in its <code>illegalStates</code>. You don't need to add it on both sides.</p>
+</blockquote>
+<hr />
+<h2 id="oneshot-cooldown">OneShot &amp; Cooldown</h2>
+<p>These are set inside <code>StateEntry</code> and control reactivation behaviour.</p>
+<h3 id="oneshot"><code>oneShot</code></h3>
+<p>When <code>true</code>, the state is completely removed from the machine after its first deactivation. It won't activate again even if the binding condition becomes true.</p>
+<pre><code class="language-csharp">new StateEntry
+{
+    bindings = new List&lt;StateBinding&gt; { ... },
+    oneShot = true
+}
+</code></pre>
+<p>Good for: intro animations, first-time tutorials, single-use pickups.</p>
+<h3 id="cooldown"><code>cooldown</code></h3>
+<p>Sets a minimum number of seconds that must pass before the state can activate again.</p>
+<pre><code class="language-csharp">new StateEntry
+{
+    bindings = new List&lt;StateBinding&gt; { ... },
+    cooldown = 2f // can't reactivate for 2 seconds after deactivation
+}
+</code></pre>
+<p>Good for: abilities, attacks, anything with a recharge time.</p>
+<hr />
+<h2 id="managing-bindings-at-runtime">Managing Bindings at Runtime</h2>
+<p>You can add or remove bindings from a subscribed state while the game is running.</p>
+<h3 id="addbinding"><code>addBinding</code></h3>
+<pre><code class="language-csharp">stateMachine.addBinding(
+    new FocusedState(),
+    new List&lt;StateBinding&gt; { new InputBinding(input.actions[&quot;Aim&quot;]) }
+);
+</code></pre>
+<h3 id="removebindings"><code>removeBindings</code></h3>
+<pre><code class="language-csharp">stateMachine.removeBindings(
+    new FocusedState(),
+    new List&lt;StateBinding&gt; { existingBinding }
+);
+</code></pre>
+<blockquote>
+<p>Note: to remove a specific binding you need a reference to the original binding instance, not a new one.</p>
+</blockquote>
+<h3 id="unsubscribestate"><code>unsubscribeState</code></h3>
+<p>Removes the state from the machine entirely. If it's currently active it will also be deactivated.</p>
+<pre><code class="language-csharp">stateMachine.unsubscribeState(new FocusedState());
+</code></pre>
+<hr />
+<h2 id="the-inspector">The Inspector</h2>
+<p>The <code>StateMachine</code> component comes with a custom inspector visible during Play Mode with four tabs:</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>currentStates</code></td>
+<td>All states active right now, with their weight and illegal states</td>
+</tr>
+<tr>
+<td><code>signedState</code></td>
+<td>All subscribed states, with their bindings and conditions</td>
+</tr>
+<tr>
+<td><code>statesHistory</code></td>
+<td>A log of every state activation and deactivation</td>
+</tr>
+<tr>
+<td><code>subscribeHistory</code></td>
+<td>A log of every subscribe and unsubscribe event</td>
+</tr>
+</tbody>
+</table>
+<p>Each entry is expandable and shows the full details of that state or event including timestamps.</p>
+<hr />
+<h2 id="api-reference">API Reference</h2>
+<h3 id="statemachine"><code>StateMachine</code></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subscribeState(State, StateEntry)</code></td>
+<td>Registers a state with bindings, evaluated every Update</td>
+</tr>
+<tr>
+<td><code>unsubscribeState(State)</code></td>
+<td>Removes a state and deactivates it if currently active</td>
+</tr>
+<tr>
+<td><code>setState(State)</code></td>
+<td>Manually activates a state, respects illegal states and weight</td>
+</tr>
+<tr>
+<td><code>removeState(State)</code></td>
+<td>Manually deactivates a state</td>
+</tr>
+<tr>
+<td><code>has(State)</code></td>
+<td>Returns true if the state is currently active</td>
+</tr>
+<tr>
+<td><code>addBinding(State, List&lt;StateBinding&gt;)</code></td>
+<td>Adds bindings to an already subscribed state</td>
+</tr>
+<tr>
+<td><code>removeBindings(State, List&lt;StateBinding&gt;)</code></td>
+<td>Removes specific bindings from a subscribed state</td>
+</tr>
+</tbody>
+</table>
+<h3 id="events">Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Signature</th>
+<th>Fires when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OnStateChanged</code></td>
+<td><code>Action&lt;State, bool&gt;</code></td>
+<td>A state is activated (<code>true</code>) or deactivated (<code>false</code>)</td>
+</tr>
+<tr>
+<td><code>OnSubscribeChange</code></td>
+<td><code>Action&lt;State, bool, StateEntry&gt;</code></td>
+<td>A state is subscribed (<code>true</code>) or unsubscribed (<code>false</code>)</td>
+</tr>
+</tbody>
+</table></div>
             </div>
         </div>
 
@@ -166,5 +550,5 @@ docs/
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-05-20 19:10:03.241174+00:00
+Build Date UTC : 2026-05-20 19:11:14.430063+00:00
 -->
