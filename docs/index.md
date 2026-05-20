@@ -1,20 +1,5 @@
 # Hybrid State Machine — Documentation
 
-## Table of Contents
-1. [Core Concepts](#core-concepts)
-2. [Creating a State](#creating-a-state)
-3. [StateEntry](#stateentry)
-4. [Subscribing vs Setting States](#subscribing-vs-setting-states)
-5. [State Bindings](#state-bindings)
-6. [Built-in Bindings](#built-in-bindings)
-7. [Illegal States & Weight System](#illegal-states--weight-system)
-8. [OneShot & Cooldown](#oneshot--cooldown)
-9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
-10. [The Inspector](#the-inspector)
-11. [API Reference](#api-reference)
-
----
-
 ## Core Concepts
 
 Hybrid State Machine works around four building blocks:

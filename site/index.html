@@ -61,7 +61,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -119,7 +119,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -129,7 +129,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -1030,22 +1030,22 @@
 <hr />
 <h2 id="creating-a-state">Creating a State</h2>
 <p>Inherit from <code>State</code> and implement the required members:</p>
-<pre><code class="language-csharp">public class FocusedState : State
-{
-    // how much priority this state has in conflict resolution
-    public override float stateWeight =&gt; 0.5f;
-
-    // states that cannot be active at the same time as this one
-    public override List&lt;State&gt; illegalStates =&gt; new List&lt;State&gt;
-    {
-        new SprintingState()
-    };
-
-    public override void OnAdd()     =&gt; Debug.Log(&quot;Focused started.&quot;);
-    public override void OnRemoval() =&gt; Debug.Log(&quot;Focused ended.&quot;);
-    public override void OnUpdate()  =&gt; Debug.Log(&quot;Focusing...&quot;);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FocusedState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="c1">// how much priority this state has in conflict resolution</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="c1">// states that cannot be active at the same time as this one</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span><span class="w"> </span><span class="n">illegalStates</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">SprintingState</span><span class="p">()</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnAdd</span><span class="p">()</span><span class="w">     </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Focused started.&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnRemoval</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Focused ended.&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnUpdate</span><span class="p">()</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;Focusing...&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</code></pre></div>
 <p><strong>Lifecycle methods:</strong></p>
 <table>
 <thead>
@@ -1074,13 +1074,13 @@
 <hr />
 <h2 id="stateentry">StateEntry</h2>
 <p><code>StateEntry</code> defines the settings for how a state should behave when subscribed to the machine.</p>
-<pre><code class="language-csharp">new StateEntry
-{
-    bindings = new List&lt;StateBinding&gt; { ... }, // what triggers this state
-    oneShot  = false,                          // remove permanently after first use?
-    cooldown = 0f,                             // seconds before it can activate again
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="c1">// what triggers this state</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">oneShot</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// remove permanently after first use?</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">cooldown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0f</span><span class="p">,</span><span class="w">                             </span><span class="c1">// seconds before it can activate again</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p>You don't need to set <code>state</code> or <code>elapsedCooldown</code> — the state machine handles those internally.</p>
 </blockquote>
@@ -1089,116 +1089,116 @@
 <p>There are two ways to activate a state:</p>
 <h3 id="subscribestate-event-driven"><code>subscribeState</code> — event driven</h3>
 <p>Ties a state to bindings. The machine checks every Update and activates or deactivates the state automatically based on the binding conditions.</p>
-<pre><code class="language-csharp">stateMachine.subscribeState(
-    new FocusedState(),
-    new StateEntry
-    {
-        bindings = new List&lt;StateBinding&gt;
-        {
-            new InputBinding(input.actions[&quot;RightClick&quot;])
-        }
-    }
-);
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">subscribeState</span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">])</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">);</span>
+</code></pre></div>
 <p>Use this for states that should turn on and off automatically based on input or conditions.</p>
 <h3 id="setstate-manual"><code>setState</code> — manual</h3>
 <p>Activates a state directly without any binding. The state stays active until you manually call <code>removeState</code>.</p>
-<pre><code class="language-csharp">stateMachine.setState(new FocusedState());
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">setState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">());</span>
+</code></pre></div>
 <p>Use this for states you want full manual control over, like a cutscene state or a death state.</p>
 <hr />
 <h2 id="state-bindings">State Bindings</h2>
 <p>A <code>StateBinding</code> is a condition that the machine evaluates every Update to decide if a subscribed state should be active or not.</p>
 <p>To create a custom binding, inherit from <code>StateBinding</code> and implement two methods:</p>
-<pre><code class="language-csharp">public class HealthBinding : StateBinding
-{
-    // the condition — return true to activate the state
-    public override bool Evaluate()
-    {
-        return machine.GetComponent&lt;Health&gt;().current &lt; 20f;
-    }
-
-    // what the inspector shows for this binding
-    public override string Transcript()
-    {
-        return &quot;Health below 20.&quot;;
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">HealthBinding</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">StateBinding</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1">// the condition — return true to activate the state</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">Evaluate</span><span class="p">()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">Health</span><span class="o">&gt;</span><span class="p">().</span><span class="n">current</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20f</span><span class="p">;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="c1">// what the inspector shows for this binding</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Transcript</span><span class="p">()</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Health below 20.&quot;</span><span class="p">;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
+</code></pre></div>
 <p><code>machine</code> is automatically available inside any binding — it's the <code>StateMachine</code> component the binding is attached to.</p>
 <h3 id="and-logic-bindingfolder">AND Logic — BindingFolder</h3>
 <p>To require multiple conditions at once, wrap them in a <code>BindingFolder</code>:</p>
-<pre><code class="language-csharp">new BindingFolder(new List&lt;StateBinding&gt;
-{
-    new InputBinding(input.actions[&quot;RightClick&quot;]),
-    new InputBinding(input.actions[&quot;Aim&quot;])
-})
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">BindingFolder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">]),</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">})</span>
+</code></pre></div>
 <p>This only returns true if <strong>all</strong> bindings inside evaluate to true.</p>
 <hr />
 <h2 id="built-in-bindings">Built-in Bindings</h2>
 <h3 id="inputbinding"><code>InputBinding</code></h3>
 <p>Activates when a Unity Input System action is held down.</p>
-<pre><code class="language-csharp">new InputBinding(input.actions[&quot;RightClick&quot;])
-// Transcript: &quot;RightClick is Pressed.&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">])</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// Transcript: &quot;RightClick is Pressed.&quot;</span>
+</code></pre></div>
 <p>Requires the <strong>Unity Input System</strong> package.</p>
 <hr />
 <h3 id="conditionbinding"><code>ConditionBinding</code></h3>
 <p>A flexible binding that delegates to a <code>Condition</code> class you implement yourself. Useful when the logic is complex or reusable.</p>
-<pre><code class="language-csharp">public class LowHealthCondition : Condition
-{
-    public override bool Evaluate(StateMachine machine)
-    {
-        return machine.GetComponent&lt;Health&gt;().current &lt; 20f;
-    }
-
-    public override string Transcript() =&gt; &quot;Health below 20.&quot;;
-}
-
-// usage
-new ConditionBinding(new LowHealthCondition())
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LowHealthCondition</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Condition</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">Evaluate</span><span class="p">(</span><span class="n">StateMachine</span><span class="w"> </span><span class="n">machine</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">Health</span><span class="o">&gt;</span><span class="p">().</span><span class="n">current</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20f</span><span class="p">;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">Transcript</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">&quot;Health below 20.&quot;</span><span class="p">;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">// usage</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">new</span><span class="w"> </span><span class="nf">ConditionBinding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LowHealthCondition</span><span class="p">())</span>
+</code></pre></div>
 <p>Use this over a raw custom <code>StateBinding</code> when you want to reuse the same condition across multiple states or projects.</p>
 <hr />
 <h3 id="timedbinding"><code>TimedBinding</code></h3>
 <p>Activates for a set duration, then deactivates and resets automatically.</p>
-<pre><code class="language-csharp">new TimedBinding(3f)
-// active for 3 seconds, then resets
-// Transcript: &quot;Active for 3s, elapsed 1.2s&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">TimedBinding</span><span class="p">(</span><span class="mf">3f</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">// active for 3 seconds, then resets</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">// Transcript: &quot;Active for 3s, elapsed 1.2s&quot;</span>
+</code></pre></div>
 <p>You can also reset the timer manually:</p>
-<pre><code class="language-csharp">TimedBinding timed = new TimedBinding(3f);
-timed.Reset();
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">TimedBinding</span><span class="w"> </span><span class="n">timed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TimedBinding</span><span class="p">(</span><span class="mf">3f</span><span class="p">);</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">timed</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+</code></pre></div>
 <hr />
 <h3 id="bindingfolder"><code>BindingFolder</code></h3>
 <p>Groups multiple bindings together with AND logic — all must be true for the state to activate.</p>
-<pre><code class="language-csharp">new BindingFolder(new List&lt;StateBinding&gt;
-{
-    new InputBinding(input.actions[&quot;RightClick&quot;]),
-    new InputBinding(input.actions[&quot;Aim&quot;])
-})
-// Transcript: &quot;RightClick is Pressed., Aim is Pressed.&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">BindingFolder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">]),</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">})</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1">// Transcript: &quot;RightClick is Pressed., Aim is Pressed.&quot;</span>
+</code></pre></div>
 <hr />
 <h2 id="illegal-states-weight-system">Illegal States &amp; Weight System</h2>
 <p>Illegal states are states that <strong>cannot be active at the same time</strong>. When two conflicting states compete, <code>stateWeight</code> decides the winner — the higher weight wins.</p>
-<pre><code class="language-csharp">public class FocusedState : State
-{
-    public override float stateWeight =&gt; 0.5f;
-
-    public override List&lt;State&gt; illegalStates =&gt; new List&lt;State&gt;
-    {
-        new SprintingState()
-    };
-}
-
-public class SprintingState : State
-{
-    public override float stateWeight =&gt; 0.6f;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FocusedState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span><span class="w"> </span><span class="n">illegalStates</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">SprintingState</span><span class="p">()</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">}</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SprintingState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="p">{</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.6f</span><span class="p">;</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="p">}</span>
+</code></pre></div>
 <p>In this example, if <code>SprintingState</code> tries to activate while <code>FocusedState</code> is active:
 - <code>SprintingState</code> (0.6) <strong>&gt;</strong> <code>FocusedState</code> (0.5) → Sprinting wins, Focused is removed
 - If the weights were reversed, Sprinting would be blocked entirely</p>
@@ -1210,44 +1210,44 @@ public class SprintingState : State
 <p>These are set inside <code>StateEntry</code> and control reactivation behaviour.</p>
 <h3 id="oneshot"><code>oneShot</code></h3>
 <p>When <code>true</code>, the state is completely removed from the machine after its first deactivation. It won't activate again even if the binding condition becomes true.</p>
-<pre><code class="language-csharp">new StateEntry
-{
-    bindings = new List&lt;StateBinding&gt; { ... },
-    oneShot = true
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">oneShot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">}</span>
+</code></pre></div>
 <p>Good for: intro animations, first-time tutorials, single-use pickups.</p>
 <h3 id="cooldown"><code>cooldown</code></h3>
 <p>Sets a minimum number of seconds that must pass before the state can activate again.</p>
-<pre><code class="language-csharp">new StateEntry
-{
-    bindings = new List&lt;StateBinding&gt; { ... },
-    cooldown = 2f // can't reactivate for 2 seconds after deactivation
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">cooldown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2f</span><span class="w"> </span><span class="c1">// can&#39;t reactivate for 2 seconds after deactivation</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">}</span>
+</code></pre></div>
 <p>Good for: abilities, attacks, anything with a recharge time.</p>
 <hr />
 <h2 id="managing-bindings-at-runtime">Managing Bindings at Runtime</h2>
 <p>You can add or remove bindings from a subscribed state while the game is running.</p>
 <h3 id="addbinding"><code>addBinding</code></h3>
-<pre><code class="language-csharp">stateMachine.addBinding(
-    new FocusedState(),
-    new List&lt;StateBinding&gt; { new InputBinding(input.actions[&quot;Aim&quot;]) }
-);
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">addBinding</span><span class="p">(</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">);</span>
+</code></pre></div>
 <h3 id="removebindings"><code>removeBindings</code></h3>
-<pre><code class="language-csharp">stateMachine.removeBindings(
-    new FocusedState(),
-    new List&lt;StateBinding&gt; { existingBinding }
-);
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">removeBindings</span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">existingBinding</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">);</span>
+</code></pre></div>
 <blockquote>
 <p>Note: to remove a specific binding you need a reference to the original binding instance, not a new one.</p>
 </blockquote>
 <h3 id="unsubscribestate"><code>unsubscribeState</code></h3>
 <p>Removes the state from the machine entirely. If it's currently active it will also be deactivated.</p>
-<pre><code class="language-csharp">stateMachine.unsubscribeState(new FocusedState());
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">unsubscribeState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">());</span>
+</code></pre></div>
 <hr />
 <h2 id="the-inspector">The Inspector</h2>
 <p>The <code>StateMachine</code> component comes with a custom inspector visible during Play Mode with four tabs:</p>
