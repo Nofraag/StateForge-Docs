@@ -8,7 +8,7 @@
 5. [State Bindings](#state-bindings)
 6. [Built-in Bindings](#built-in-bindings)
 7. [Illegal States & Weight System](#illegal-states-weight-system)
-8. [Cooldown & Buffer](#cooldown--buffer)
+8. [Cooldown & Buffer](#cooldown-buffer)
 9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
 10. [The Inspector](#the-inspector)
 11. [API Reference](#api-reference)
