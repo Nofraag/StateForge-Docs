@@ -8,7 +8,7 @@
 5. [State Bindings](#state-bindings)
 6. [Built-in Bindings](#built-in-bindings)
 7. [Illegal States & Weight System](#illegal-states-weight-system)
-8. [OneShot & Cooldown](#oneshot-cooldown)
+8. [Cooldown & Buffer](#cooldown--buffer)
 9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
 10. [The Inspector](#the-inspector)
 11. [API Reference](#api-reference)
@@ -60,7 +60,7 @@ public class FocusedState : State
 | `OnRemoval()` | Once, when the state is deactivated |
 | `OnUpdate()` | Every Unity Update while the state is active |
 
-**`stateWeight`** is required. It determines who wins when two conflicting states compete. See [Illegal States & Weight System](#illegal-states-weight-system).
+**`stateWeight`** is required. It determines who wins when two conflicting states compete. See [Illegal States & Weight System](#illegal-states--weight-system).
 
 **`illegalStates`** is optional. Leave it empty if this state has no conflicts.
 
@@ -73,13 +73,14 @@ public class FocusedState : State
 ```csharp
 new StateEntry
 {
-    bindings = new List<StateBinding> { ... }, // what triggers this state
-    oneShot  = false,                          // remove permanently after first use?
-    cooldown = 0f,                             // seconds before it can activate again
+    bindings        = new List<StateBinding> { ... }, // what triggers this state
+    cooldownDuration = 0f,                            // seconds before it can activate again
+    bufferDuration   = 0f,                            // input buffer window in seconds
+    removeOnBindings = false,                         // remove permanently after first deactivation?
 }
 ```
 
-> You don't need to set `state` or `elapsedCooldown` — the state machine handles those internally.
+> You don't need to set `state`, `elapsedCooldown`, or `elapsedBuffer` — the state machine handles those internally.
 
 ---
 
@@ -193,21 +194,27 @@ Use this over a raw custom `StateBinding` when you want to reuse the same condit
 
 ---
 
-### `TimedBinding`
-Activates for a set duration, then deactivates and resets automatically.
+### `DurationBinding`
+Keeps a state active for a set number of seconds after it becomes active, then deactivates it.
 
 ```csharp
-new TimedBinding(3f)
-// active for 3 seconds, then resets
-// Transcript: "Active for 3s, elapsed 1.2s"
+Attack attack = new Attack();
+stateMachine.subscribeState(attack, new StateEntry
+{
+    bindings = new List<StateBinding>
+    {
+        new InputBinding(input.actions["Attack"]),
+        new DurationBinding(0.4f, attack)
+    }
+});
+// Transcript: "Lasts for 0.4 seconds after state is active"
 ```
 
-You can also reset the timer manually:
+The timer only counts while the state is active in `currentStates`. If the state is removed early by a conflict or `removeState`, the timer resets automatically.
 
-```csharp
-TimedBinding timed = new TimedBinding(3f);
-timed.Reset();
-```
+Use this for states that should last a fixed amount of time regardless of input — attacks, rolls, animations, ability windows.
+
+> **Note:** pass the **same state instance** used in `subscribeState` to `DurationBinding`. Both must reference the same object.
 
 ---
 
@@ -254,35 +261,64 @@ In this example, if `SprintingState` tries to activate while `FocusedState` is a
 
 ---
 
-## OneShot & Cooldown
+## Cooldown & Buffer
 
-These are set inside `StateEntry` and control reactivation behaviour.
+These are set inside `StateEntry` and control reactivation timing.
 
-### `oneShot`
-When `true`, the state is completely removed from the machine after its first deactivation. It won't activate again even if the binding condition becomes true.
-
-```csharp
-new StateEntry
-{
-    bindings = new List<StateBinding> { ... },
-    oneShot = true
-}
-```
-
-Good for: intro animations, first-time tutorials, single-use pickups.
-
-### `cooldown`
-Sets a minimum number of seconds that must pass before the state can activate again.
+### `cooldownDuration`
+Sets a minimum number of seconds that must pass after a state deactivates before it can activate again.
 
 ```csharp
 new StateEntry
 {
-    bindings = new List<StateBinding> { ... },
-    cooldown = 2f // can't reactivate for 2 seconds after deactivation
+    bindings         = new List<StateBinding> { ... },
+    cooldownDuration = 2f // can't reactivate for 2 seconds after deactivation
 }
 ```
 
 Good for: abilities, attacks, anything with a recharge time.
+
+### `bufferDuration`
+Sets an input buffer window. If a binding evaluates true while the state is on cooldown, the machine stores the input for `bufferDuration` seconds. When the cooldown expires, if the buffer is still active the state activates immediately without requiring the player to press again.
+
+```csharp
+new StateEntry
+{
+    bindings         = new List<StateBinding> { ... },
+    cooldownDuration = 0.5f,
+    bufferDuration   = 0.15f // input is buffered for 150ms
+}
+```
+
+Good for: attacks, rolls, any action where early input should still register.
+
+### `singularUse`
+When `true`, the state activates, runs `OnUpdate` exactly once, then removes itself from `currentStates`. It stays in `subscribedStates` so it can activate again the next time the binding condition becomes true.
+
+```csharp
+new StateEntry
+{
+    bindings    = new List<StateBinding> { ... },
+    singularUse = true
+}
+```
+
+Good for: single frame impulses, one-tick events, fire-and-forget effects.
+
+### `removeOnBindings`
+When `true`, the state permanently removes itself from `subscribedStates` the moment it is deactivated. It will never activate again even if the binding condition becomes true.
+
+```csharp
+new StateEntry
+{
+    bindings         = new List<StateBinding> { ... },
+    removeOnBindings = true
+}
+```
+
+Can be combined with `singularUse` — the state activates once, runs one update tick, then is gone permanently.
+
+Good for: intro animations, first-time tutorials, single-use pickups.
 
 ---
 
@@ -345,6 +381,16 @@ Each entry is expandable and shows the full details of that state or event inclu
 | `has(State)` | Returns true if the state is currently active |
 | `addBinding(State, List<StateBinding>)` | Adds bindings to an already subscribed state |
 | `removeBindings(State, List<StateBinding>)` | Removes specific bindings from a subscribed state |
+
+### `StateEntry` Fields
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `bindings` | `List<StateBinding>` | — | Conditions evaluated every Update to activate or deactivate the state |
+| `cooldownDuration` | `float` | `0` | Seconds before the state can activate again after deactivation |
+| `bufferDuration` | `float` | `0` | Seconds input is buffered while on cooldown |
+| `singularUse` | `bool` | `false` | If true, state runs `OnUpdate` once then removes itself from `currentStates` |
+| `removeOnBindings` | `bool` | `false` | If true, permanently removes the state from `subscribedStates` on deactivation |
 
 ### Events
 
