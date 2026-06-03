@@ -433,10 +433,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#timedbinding" class="md-nav__link">
+  <a href="#durationbinding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TimedBinding
+        DurationBinding
       
     </span>
   </a>
@@ -471,22 +471,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#oneshot-cooldown" class="md-nav__link">
+  <a href="#cooldown-buffer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        OneShot &amp; Cooldown
+        Cooldown &amp; Buffer
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="OneShot &amp; Cooldown">
+    <nav class="md-nav" aria-label="Cooldown &amp; Buffer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#oneshot" class="md-nav__link">
+  <a href="#cooldownduration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        oneShot
+        cooldownDuration
       
     </span>
   </a>
@@ -494,10 +494,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cooldown" class="md-nav__link">
+  <a href="#bufferduration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cooldown
+        bufferDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singularuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        singularUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removeonbindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        removeOnBindings
       
     </span>
   </a>
@@ -587,6 +609,17 @@
     <span class="md-ellipsis">
       
         StateMachine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stateentry-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StateEntry Fields
       
     </span>
   </a>
@@ -789,10 +822,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#timedbinding" class="md-nav__link">
+  <a href="#durationbinding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TimedBinding
+        DurationBinding
       
     </span>
   </a>
@@ -827,22 +860,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#oneshot-cooldown" class="md-nav__link">
+  <a href="#cooldown-buffer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        OneShot &amp; Cooldown
+        Cooldown &amp; Buffer
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="OneShot &amp; Cooldown">
+    <nav class="md-nav" aria-label="Cooldown &amp; Buffer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#oneshot" class="md-nav__link">
+  <a href="#cooldownduration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        oneShot
+        cooldownDuration
       
     </span>
   </a>
@@ -850,10 +883,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cooldown" class="md-nav__link">
+  <a href="#bufferduration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cooldown
+        bufferDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singularuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        singularUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removeonbindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        removeOnBindings
       
     </span>
   </a>
@@ -950,6 +1005,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#stateentry-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StateEntry Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#events" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -992,7 +1058,7 @@
 <li><a href="#state-bindings">State Bindings</a></li>
 <li><a href="#built-in-bindings">Built-in Bindings</a></li>
 <li><a href="#illegal-states-weight-system">Illegal States &amp; Weight System</a></li>
-<li><a href="#oneshot-cooldown">OneShot &amp; Cooldown</a></li>
+<li><a href="#cooldown--buffer">Cooldown &amp; Buffer</a></li>
 <li><a href="#managing-bindings-at-runtime">Managing Bindings at Runtime</a></li>
 <li><a href="#the-inspector">The Inspector</a></li>
 <li><a href="#api-reference">API Reference</a></li>
@@ -1069,20 +1135,21 @@
 </tr>
 </tbody>
 </table>
-<p><strong><code>stateWeight</code></strong> is required. It determines who wins when two conflicting states compete. See <a href="#illegal-states-weight-system">Illegal States &amp; Weight System</a>.</p>
+<p><strong><code>stateWeight</code></strong> is required. It determines who wins when two conflicting states compete. See <a href="#illegal-states--weight-system">Illegal States &amp; Weight System</a>.</p>
 <p><strong><code>illegalStates</code></strong> is optional. Leave it empty if this state has no conflicts.</p>
 <hr />
 <h2 id="stateentry">StateEntry</h2>
 <p><code>StateEntry</code> defines the settings for how a state should behave when subscribed to the machine.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="c1">// what triggers this state</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">oneShot</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// remove permanently after first use?</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">cooldown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0f</span><span class="p">,</span><span class="w">                             </span><span class="c1">// seconds before it can activate again</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">}</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="c1">// what triggers this state</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">cooldownDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0f</span><span class="p">,</span><span class="w">                            </span><span class="c1">// seconds before it can activate again</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">bufferDuration</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0f</span><span class="p">,</span><span class="w">                            </span><span class="c1">// input buffer window in seconds</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">removeOnBindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                         </span><span class="c1">// remove permanently after first deactivation?</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </code></pre></div>
 <blockquote>
-<p>You don't need to set <code>state</code> or <code>elapsedCooldown</code> — the state machine handles those internally.</p>
+<p>You don't need to set <code>state</code>, <code>elapsedCooldown</code>, or <code>elapsedBuffer</code> — the state machine handles those internally.</p>
 </blockquote>
 <hr />
 <h2 id="subscribing-vs-setting-states">Subscribing vs Setting States</h2>
@@ -1161,43 +1228,51 @@
 </code></pre></div>
 <p>Use this over a raw custom <code>StateBinding</code> when you want to reuse the same condition across multiple states or projects.</p>
 <hr />
-<h3 id="timedbinding"><code>TimedBinding</code></h3>
-<p>Activates for a set duration, then deactivates and resets automatically.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">TimedBinding</span><span class="p">(</span><span class="mf">3f</span><span class="p">)</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">// active for 3 seconds, then resets</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">// Transcript: &quot;Active for 3s, elapsed 1.2s&quot;</span>
+<h3 id="durationbinding"><code>DurationBinding</code></h3>
+<p>Keeps a state active for a set number of seconds after it becomes active, then deactivates it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">Attack</span><span class="w"> </span><span class="n">attack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Attack</span><span class="p">();</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">subscribeState</span><span class="p">(</span><span class="n">attack</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Attack&quot;</span><span class="p">]),</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">DurationBinding</span><span class="p">(</span><span class="mf">0.4f</span><span class="p">,</span><span class="w"> </span><span class="n">attack</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">});</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1">// Transcript: &quot;Lasts for 0.4 seconds after state is active&quot;</span>
 </code></pre></div>
-<p>You can also reset the timer manually:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">TimedBinding</span><span class="w"> </span><span class="n">timed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TimedBinding</span><span class="p">(</span><span class="mf">3f</span><span class="p">);</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">timed</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
-</code></pre></div>
+<p>The timer only counts while the state is active in <code>currentStates</code>. If the state is removed early by a conflict or <code>removeState</code>, the timer resets automatically.</p>
+<p>Use this for states that should last a fixed amount of time regardless of input — attacks, rolls, animations, ability windows.</p>
+<blockquote>
+<p><strong>Note:</strong> pass the <strong>same state instance</strong> used in <code>subscribeState</code> to <code>DurationBinding</code>. Both must reference the same object.</p>
+</blockquote>
 <hr />
 <h3 id="bindingfolder"><code>BindingFolder</code></h3>
 <p>Groups multiple bindings together with AND logic — all must be true for the state to activate.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">BindingFolder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">]),</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">})</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1">// Transcript: &quot;RightClick is Pressed., Aim is Pressed.&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">new</span><span class="w"> </span><span class="nf">BindingFolder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;RightClick&quot;</span><span class="p">]),</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">})</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">// Transcript: &quot;RightClick is Pressed., Aim is Pressed.&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="illegal-states-weight-system">Illegal States &amp; Weight System</h2>
 <p>Illegal states are states that <strong>cannot be active at the same time</strong>. When two conflicting states compete, <code>stateWeight</code> decides the winner — the higher weight wins.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FocusedState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span><span class="w"> </span><span class="n">illegalStates</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">SprintingState</span><span class="p">()</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="p">};</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="p">}</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SprintingState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="p">{</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.6f</span><span class="p">;</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">FocusedState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span><span class="w"> </span><span class="n">illegalStates</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">SprintingState</span><span class="p">()</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">}</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SprintingState</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="p">{</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">stateWeight</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.6f</span><span class="p">;</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="p">}</span>
 </code></pre></div>
 <p>In this example, if <code>SprintingState</code> tries to activate while <code>FocusedState</code> is active:
 - <code>SprintingState</code> (0.6) <strong>&gt;</strong> <code>FocusedState</code> (0.5) → Sprinting wins, Focused is removed
@@ -1206,47 +1281,67 @@
 <p><strong>Important:</strong> you only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active together — you don't need to add it on both sides.</p>
 </blockquote>
 <hr />
-<h2 id="oneshot-cooldown">OneShot &amp; Cooldown</h2>
-<p>These are set inside <code>StateEntry</code> and control reactivation behaviour.</p>
-<h3 id="oneshot"><code>oneShot</code></h3>
-<p>When <code>true</code>, the state is completely removed from the machine after its first deactivation. It won't activate again even if the binding condition becomes true.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">oneShot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">}</span>
-</code></pre></div>
-<p>Good for: intro animations, first-time tutorials, single-use pickups.</p>
-<h3 id="cooldown"><code>cooldown</code></h3>
-<p>Sets a minimum number of seconds that must pass before the state can activate again.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">{</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">cooldown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2f</span><span class="w"> </span><span class="c1">// can&#39;t reactivate for 2 seconds after deactivation</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">}</span>
+<h2 id="cooldown-buffer">Cooldown &amp; Buffer</h2>
+<p>These are set inside <code>StateEntry</code> and control reactivation timing.</p>
+<h3 id="cooldownduration"><code>cooldownDuration</code></h3>
+<p>Sets a minimum number of seconds that must pass after a state deactivates before it can activate again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">cooldownDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2f</span><span class="w"> </span><span class="c1">// can&#39;t reactivate for 2 seconds after deactivation</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">}</span>
 </code></pre></div>
 <p>Good for: abilities, attacks, anything with a recharge time.</p>
+<h3 id="bufferduration"><code>bufferDuration</code></h3>
+<p>Sets an input buffer window. If a binding evaluates true while the state is on cooldown, the machine stores the input for <code>bufferDuration</code> seconds. When the cooldown expires, if the buffer is still active the state activates immediately without requiring the player to press again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">cooldownDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5f</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="n">bufferDuration</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0.15f</span><span class="w"> </span><span class="c1">// input is buffered for 150ms</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Good for: attacks, rolls, any action where early input should still register.</p>
+<h3 id="singularuse"><code>singularUse</code></h3>
+<p>When <code>true</code>, the state activates, runs <code>OnUpdate</code> exactly once, then removes itself from <code>currentStates</code>. It stays in <code>subscribedStates</code> so it can activate again the next time the binding condition becomes true.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">singularUse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Good for: single frame impulses, one-tick events, fire-and-forget effects.</p>
+<h3 id="removeonbindings"><code>removeOnBindings</code></h3>
+<p>When <code>true</code>, the state permanently removes itself from <code>subscribedStates</code> the moment it is deactivated. It will never activate again even if the binding condition becomes true.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">{</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="n">removeOnBindings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>Can be combined with <code>singularUse</code> — the state activates once, runs one update tick, then is gone permanently.</p>
+<p>Good for: intro animations, first-time tutorials, single-use pickups.</p>
 <hr />
 <h2 id="managing-bindings-at-runtime">Managing Bindings at Runtime</h2>
 <p>You can add or remove bindings from a subscribed state while the game is running.</p>
 <h3 id="addbinding"><code>addBinding</code></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">addBinding</span><span class="p">(</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">addBinding</span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InputBinding</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">actions</span><span class="p">[</span><span class="s">&quot;Aim&quot;</span><span class="p">])</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">);</span>
 </code></pre></div>
 <h3 id="removebindings"><code>removeBindings</code></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">removeBindings</span><span class="p">(</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">existingBinding</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">removeBindings</span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">FocusedState</span><span class="p">(),</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">existingBinding</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="p">);</span>
 </code></pre></div>
 <blockquote>
 <p>Note: to remove a specific binding you need a reference to the original binding instance, not a new one.</p>
 </blockquote>
 <h3 id="unsubscribestate"><code>unsubscribeState</code></h3>
 <p>Removes the state from the machine entirely. If it's currently active it will also be deactivated.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">unsubscribeState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">());</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">unsubscribeState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">());</span>
 </code></pre></div>
 <hr />
 <h2 id="the-inspector">The Inspector</h2>
@@ -1316,6 +1411,49 @@
 <tr>
 <td><code>removeBindings(State, List&lt;StateBinding&gt;)</code></td>
 <td>Removes specific bindings from a subscribed state</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stateentry-fields"><code>StateEntry</code> Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bindings</code></td>
+<td><code>List&lt;StateBinding&gt;</code></td>
+<td>—</td>
+<td>Conditions evaluated every Update to activate or deactivate the state</td>
+</tr>
+<tr>
+<td><code>cooldownDuration</code></td>
+<td><code>float</code></td>
+<td><code>0</code></td>
+<td>Seconds before the state can activate again after deactivation</td>
+</tr>
+<tr>
+<td><code>bufferDuration</code></td>
+<td><code>float</code></td>
+<td><code>0</code></td>
+<td>Seconds input is buffered while on cooldown</td>
+</tr>
+<tr>
+<td><code>singularUse</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>If true, state runs <code>OnUpdate</code> once then removes itself from <code>currentStates</code></td>
+</tr>
+<tr>
+<td><code>removeOnBindings</code></td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td>If true, permanently removes the state from <code>subscribedStates</code> on deactivation</td>
 </tr>
 </tbody>
 </table>
