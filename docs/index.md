@@ -199,32 +199,6 @@ Use this over a raw custom `StateBinding` when you want to reuse the same condit
 
 ---
 
-### `DurationBinding`
-Keeps a state active for a set number of seconds after it becomes active, then deactivates it.
-
-```csharp
-Attack attack = new Attack();
-stateMachine.SubscribeState(attack, new StateEntry
-{
-    bindings = new List<StateBinding>
-    {
-        new InputBinding(input.actions["Attack"]),
-        new DurationBinding(0.4f, attack)
-    }
-});
-// Transcript: "Lasts for 0.4 seconds after state is active"
-```
-
-The timer only counts while the state is active in `currentStates`. If the state is removed early by a conflict or `RemoveState`, the timer resets automatically.
-
-Use this for states that should last a fixed amount of time regardless of input — attacks, rolls, animations, ability windows.
-
-> **Note:** pass the **same state instance** used in `SubscribeState` to `DurationBinding`. Both must reference the same object.
-
-> **Tip:** you can also use `stateDuration` on `StateEntry` for duration-based removal without a binding. See [StateEntry](#stateentry).
-
----
-
 ### `BindingFolder`
 Groups multiple bindings together with AND logic — all must be true for the state to activate.
 
