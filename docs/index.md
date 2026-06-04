@@ -7,11 +7,12 @@
 4. [Subscribing vs Setting States](#subscribing-vs-setting-states)
 5. [State Bindings](#state-bindings)
 6. [Built-in Bindings](#built-in-bindings)
-7. [Illegal States & Weight System](#illegal-states-weight-system)
-8. [Cooldown & Buffer](#cooldown-buffer)
+7. [Illegal States & Weight System](#illegal-states--weight-system)
+8. [Cooldown & Buffer](#cooldown--buffer)
 9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
-10. [The Inspector](#the-inspector)
-11. [API Reference](#api-reference)
+10. [StateQuery & Events](#statequery--events)
+11. [The Inspector](#the-inspector)
+12. [API Reference](#api-reference)
 
 ---
 
@@ -22,7 +23,7 @@ Hybrid State Machine works around four building blocks:
 | Block | What it is |
 |---|---|
 | `State` | A behaviour your object can be in |
-| `StateEntry` | Settings for how a state activates |
+| `StateEntry` | Settings for how a state activates and behaves |
 | `StateBinding` | A condition that decides if a state should be active |
 | `StateMachine` | The MonoBehaviour component that runs everything |
 
@@ -73,14 +74,18 @@ public class FocusedState : State
 ```csharp
 new StateEntry
 {
-    bindings        = new List<StateBinding> { ... }, // what triggers this state
-    cooldownDuration = 0f,                            // seconds before it can activate again
-    bufferDuration   = 0f,                            // input buffer window in seconds
-    removeOnBindings = false,                         // remove permanently after first deactivation?
+    bindings         = new List<StateBinding> { ... }, // what triggers this state
+    cooldownDuration = 0f,                             // seconds before it can activate again
+    bufferDuration   = 0f,                             // input buffer window in seconds
+    stateDuration    = 0f,                             // how long the state stays active (0 = forever)
+    singularUse      = false,                          // remove after one Update tick?
+    destroyOnRemoval = false,                          // remove permanently from subscribed on deactivation?
+    respectWeight    = true,                           // participate in illegal state weight battles?
+    oneWay           = false,                          // once activated, never removed by bindings?
 }
 ```
 
-> You don't need to set `state`, `elapsedCooldown`, or `elapsedBuffer` — the state machine handles those internally.
+> You don't need to set `state`, `elapsedCooldown`, `elapsedBuffer`, or `elapsedDuration` — the state machine handles those internally.
 
 ---
 
@@ -88,11 +93,11 @@ new StateEntry
 
 There are two ways to activate a state:
 
-### `subscribeState` — event driven
+### `SubscribeState` — event driven
 Ties a state to bindings. The machine checks every Update and activates or deactivates the state automatically based on the binding conditions.
 
 ```csharp
-stateMachine.subscribeState(
+stateMachine.SubscribeState(
     new FocusedState(),
     new StateEntry
     {
@@ -106,11 +111,11 @@ stateMachine.subscribeState(
 
 Use this for states that should turn on and off automatically based on input or conditions.
 
-### `setState` — manual
-Activates a state directly without any binding. The state stays active until you manually call `removeState`.
+### `SetState` — manual
+Activates a state directly without any binding. The second parameter controls whether the weight system applies.
 
 ```csharp
-stateMachine.setState(new FocusedState());
+stateMachine.SetState(new FocusedState(), respectWeight: true);
 ```
 
 Use this for states you want full manual control over, like a cutscene state or a death state.
@@ -199,7 +204,7 @@ Keeps a state active for a set number of seconds after it becomes active, then d
 
 ```csharp
 Attack attack = new Attack();
-stateMachine.subscribeState(attack, new StateEntry
+stateMachine.SubscribeState(attack, new StateEntry
 {
     bindings = new List<StateBinding>
     {
@@ -210,11 +215,13 @@ stateMachine.subscribeState(attack, new StateEntry
 // Transcript: "Lasts for 0.4 seconds after state is active"
 ```
 
-The timer only counts while the state is active in `currentStates`. If the state is removed early by a conflict or `removeState`, the timer resets automatically.
+The timer only counts while the state is active in `currentStates`. If the state is removed early by a conflict or `RemoveState`, the timer resets automatically.
 
 Use this for states that should last a fixed amount of time regardless of input — attacks, rolls, animations, ability windows.
 
-> **Note:** pass the **same state instance** used in `subscribeState` to `DurationBinding`. Both must reference the same object.
+> **Note:** pass the **same state instance** used in `SubscribeState` to `DurationBinding`. Both must reference the same object.
+
+> **Tip:** you can also use `stateDuration` on `StateEntry` for duration-based removal without a binding. See [StateEntry](#stateentry).
 
 ---
 
@@ -257,13 +264,25 @@ In this example, if `SprintingState` tries to activate while `FocusedState` is a
 - `SprintingState` (0.6) **>** `FocusedState` (0.5) → Sprinting wins, Focused is removed
 - If the weights were reversed, Sprinting would be blocked entirely
 
-> **Important:** you only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active together — you don't need to add it on both sides.
+> **Important:** you only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active together.
+
+### Bypassing the weight system
+
+Set `respectWeight = false` on a `StateEntry` to make a state activate regardless of conflicts. It will never be blocked or removed by illegal state logic.
+
+```csharp
+new StateEntry
+{
+    bindings      = new List<StateBinding> { ... },
+    respectWeight = false // ignores illegal state rules entirely
+}
+```
+
+Good for: death states, cutscene states, anything that must always win.
 
 ---
 
 ## Cooldown & Buffer
-
-These are set inside `StateEntry` and control reactivation timing.
 
 ### `cooldownDuration`
 Sets a minimum number of seconds that must pass after a state deactivates before it can activate again.
@@ -279,7 +298,7 @@ new StateEntry
 Good for: abilities, attacks, anything with a recharge time.
 
 ### `bufferDuration`
-Sets an input buffer window. If a binding evaluates true while the state is on cooldown, the machine stores the input for `bufferDuration` seconds. When the cooldown expires, if the buffer is still active the state activates immediately without requiring the player to press again.
+Sets an input buffer window. If a binding evaluates true while the state is on cooldown, the machine stores the input for `bufferDuration` seconds. When the cooldown expires, the state activates immediately without requiring the player to press again.
 
 ```csharp
 new StateEntry
@@ -291,6 +310,21 @@ new StateEntry
 ```
 
 Good for: attacks, rolls, any action where early input should still register.
+
+### `stateDuration`
+The state automatically removes itself after this many seconds of being active. Set to `0` (default) for no automatic removal.
+
+```csharp
+new StateEntry
+{
+    bindings      = new List<StateBinding> { ... },
+    stateDuration = 0.4f // state lasts 0.4 seconds then removes itself
+}
+```
+
+Best paired with `cooldownDuration` to prevent immediate reactivation, or `oneWay` for a state that triggers once and runs for a fixed time.
+
+Good for: attacks, rolls, timed buffs, ability windows.
 
 ### `singularUse`
 When `true`, the state activates, runs `OnUpdate` exactly once, then removes itself from `currentStates`. It stays in `subscribedStates` so it can activate again the next time the binding condition becomes true.
@@ -305,14 +339,14 @@ new StateEntry
 
 Good for: single frame impulses, one-tick events, fire-and-forget effects.
 
-### `removeOnBindings`
+### `destroyOnRemoval`
 When `true`, the state permanently removes itself from `subscribedStates` the moment it is deactivated. It will never activate again even if the binding condition becomes true.
 
 ```csharp
 new StateEntry
 {
     bindings         = new List<StateBinding> { ... },
-    removeOnBindings = true
+    destroyOnRemoval = true
 }
 ```
 
@@ -320,23 +354,38 @@ Can be combined with `singularUse` — the state activates once, runs one update
 
 Good for: intro animations, first-time tutorials, single-use pickups.
 
+### `oneWay`
+When `true`, once the state is activated by a binding it will never be deactivated by bindings. The state stays active until explicitly removed via `RemoveState`, `ClearAllStates`, or `stateDuration` expiry.
+
+```csharp
+new StateEntry
+{
+    bindings = new List<StateBinding> { ... },
+    oneWay   = true
+}
+```
+
+Good for: death states, permanent unlocks, mode switches that should never auto-revert.
+
+> **Note:** `oneWay` only suppresses binding-based removal. `stateDuration`, `singularUse`, and manual `RemoveState` calls still work normally.
+
 ---
 
 ## Managing Bindings at Runtime
 
 You can add or remove bindings from a subscribed state while the game is running.
 
-### `addBinding`
+### `AddBindings`
 ```csharp
-stateMachine.addBinding(
+stateMachine.AddBindings(
     new FocusedState(),
     new List<StateBinding> { new InputBinding(input.actions["Aim"]) }
 );
 ```
 
-### `removeBindings`
+### `RemoveBindings`
 ```csharp
-stateMachine.removeBindings(
+stateMachine.RemoveBindings(
     new FocusedState(),
     new List<StateBinding> { existingBinding }
 );
@@ -344,12 +393,63 @@ stateMachine.removeBindings(
 
 > Note: to remove a specific binding you need a reference to the original binding instance, not a new one.
 
-### `unsubscribeState`
+### `UnsubscribeState`
 Removes the state from the machine entirely. If it's currently active it will also be deactivated.
 
 ```csharp
-stateMachine.unsubscribeState(new FocusedState());
+stateMachine.UnsubscribeState(new FocusedState());
 ```
+
+### `ClearAllStates`
+Deactivates all currently active states. Pass `true` to also clear all subscribed states.
+
+```csharp
+stateMachine.ClearAllStates(clearSubscribedStates: false); // deactivate all, keep subscriptions
+stateMachine.ClearAllStates(clearSubscribedStates: true);  // full reset
+```
+
+Good for: scene transitions, player death, respawn.
+
+---
+
+## StateQuery & Events
+
+Every state activation, deactivation, and failure fires an `OnStateChanged` event with a `StateQuery` value explaining exactly what happened. Subscribe to it to react to state changes or debug your setup.
+
+```csharp
+stateMachine.OnStateChanged += (state, query) =>
+{
+    Debug.Log($"{state.GetType().Name}: {query}");
+};
+```
+
+### `StateQuery` values
+
+| Value | When it fires |
+|---|---|
+| `SuccessfullyAdded` | State was activated |
+| `SuccessfullyRemoved` | State was deactivated |
+| `RemovedByWeight` | State was removed because a higher-weight state won |
+| `AlreadyActive` | `SetState` was called but the state was already active |
+| `NotActive` | `RemoveState` was called but the state wasn't active |
+| `OnCooldown` | `SetState` was blocked because the cooldown hasn't expired |
+| `BlockedByWeight` | `SetState` was blocked by a higher-weight conflicting state |
+
+### Subscribe events
+
+`OnSubscribeChange` fires when a state is subscribed or unsubscribed, and includes the full `StateEntry`.
+
+```csharp
+stateMachine.OnSubscribeChange += (state, query, entry) =>
+{
+    Debug.Log($"{state.GetType().Name}: {query}");
+};
+```
+
+| Value | When it fires |
+|---|---|
+| `SuccessfullySubscribed` | State was registered with `SubscribeState` |
+| `SuccessfullyUnsubscribed` | State was removed with `UnsubscribeState` |
 
 ---
 
@@ -359,12 +459,12 @@ The `StateMachine` component comes with a custom inspector visible during Play M
 
 | Tab | What it shows |
 |---|---|
-| `currentStates` | All states active right now, with their weight and illegal states |
-| `signedState` | All subscribed states, with their bindings and conditions |
-| `statesHistory` | A log of every state activation and deactivation |
-| `subscribeHistory` | A log of every subscribe and unsubscribe event |
+| `currentStates` | All states active right now, with weight, illegal states, elapsed duration, and max duration |
+| `signedState` | All subscribed states, with bindings, cooldown, buffer, duration, and all flags |
+| `statesHistory` | A rolling log (last 50 entries) of every state activation and deactivation with timestamps |
+| `subscribeHistory` | A rolling log (last 50 entries) of every subscribe and unsubscribe event |
 
-Each entry is expandable and shows the full details of that state or event including timestamps.
+Each entry is expandable and shows the full details of that state or event.
 
 ---
 
@@ -374,27 +474,31 @@ Each entry is expandable and shows the full details of that state or event inclu
 
 | Method | Description |
 |---|---|
-| `subscribeState(State, StateEntry)` | Registers a state with bindings, evaluated every Update |
-| `unsubscribeState(State)` | Removes a state and deactivates it if currently active |
-| `setState(State)` | Manually activates a state, respects illegal states and weight |
-| `removeState(State)` | Manually deactivates a state |
-| `has(State)` | Returns true if the state is currently active |
-| `addBinding(State, List<StateBinding>)` | Adds bindings to an already subscribed state |
-| `removeBindings(State, List<StateBinding>)` | Removes specific bindings from a subscribed state |
+| `SubscribeState(State, StateEntry)` | Registers a state with bindings, evaluated every Update |
+| `UnsubscribeState(State)` | Removes a state and deactivates it if currently active |
+| `SetState(State, bool respectWeight)` | Manually activates a state |
+| `RemoveState(State)` | Manually deactivates a state |
+| `Has(State)` | Returns true if the state is currently active |
+| `AddBindings(State, List<StateBinding>)` | Adds bindings to an already subscribed state |
+| `RemoveBindings(State, List<StateBinding>)` | Removes specific bindings from a subscribed state |
+| `ClearAllStates(bool)` | Deactivates all active states; pass true to also clear subscribed states |
 
 ### `StateEntry` Fields
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `bindings` | `List<StateBinding>` | — | Conditions evaluated every Update to activate or deactivate the state |
+| `bindings` | `List<StateBinding>` | `[]` | Conditions evaluated every Update to activate or deactivate the state |
 | `cooldownDuration` | `float` | `0` | Seconds before the state can activate again after deactivation |
 | `bufferDuration` | `float` | `0` | Seconds input is buffered while on cooldown |
-| `singularUse` | `bool` | `false` | If true, state runs `OnUpdate` once then removes itself from `currentStates` |
-| `removeOnBindings` | `bool` | `false` | If true, permanently removes the state from `subscribedStates` on deactivation |
+| `stateDuration` | `float` | `0` | Seconds the state stays active before auto-removal (0 = no limit) |
+| `singularUse` | `bool` | `false` | If true, state runs `OnUpdate` once then removes itself |
+| `destroyOnRemoval` | `bool` | `false` | If true, permanently removes the state from `subscribedStates` on deactivation |
+| `respectWeight` | `bool` | `true` | If false, state ignores illegal state weight battles entirely |
+| `oneWay` | `bool` | `false` | If true, bindings can activate the state but never deactivate it |
 
 ### Events
 
 | Event | Signature | Fires when |
 |---|---|---|
-| `OnStateChanged` | `Action<State, bool>` | A state is activated (`true`) or deactivated (`false`) |
-| `OnSubscribeChange` | `Action<State, bool, StateEntry>` | A state is subscribed (`true`) or unsubscribed (`false`) |
+| `OnStateChanged` | `Action<State, StateQuery>` | A state is activated, deactivated, or blocked — includes reason via `StateQuery` |
+| `OnSubscribeChange` | `Action<State, StateQuery, StateEntry>` | A state is subscribed or unsubscribed |
