@@ -1,6 +1,6 @@
 site_name: Layered State Machine
 site_description: Lightweight layered state machine framework for Unity
-site_author: Your Name
+site_author: Nofraag
 
 theme:
   name: material
@@ -51,6 +51,4 @@ markdown_extensions:
       alternate_style: true
 
 nav:
-  - Home: index.md
-  - Documentation:
-      - Layered State Machine: documentation.md
+  - LSM documentation: index.md
