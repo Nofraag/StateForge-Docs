@@ -1,21 +1,72 @@
-site_name: Hybrid State Machine
+site_name: Layered State Machine
+site_description: Lightweight layered state machine framework for Unity
+site_author: Your Name
+
 theme:
-  name: material
-  palette:
-    - scheme: slate
-      primary: deep purple
-      accent: deep purple
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-    - scheme: default
-      primary: deep purple
-      accent: deep purple
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+name: material
+
+palette:
+- scheme: slate
+primary: deep purple
+accent: deep purple
+toggle:
+icon: material/weather-sunny
+name: Light mode
+
+```
+- scheme: default
+  primary: deep purple
+  accent: deep purple
+  toggle:
+    icon: material/weather-night
+    name: Dark mode
+```
+
+features:
+- navigation.tabs
+- navigation.sections
+- navigation.top
+- navigation.instant
+- navigation.tracking
+- navigation.expand
+- toc.follow
+- search.suggest
+- search.highlight
+- content.code.copy
+- content.code.annotate
+
+plugins:
+
+* search
 
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.superfences
+
+* admonition
+
+* attr_list
+
+* md_in_html
+
+* toc:
+  permalink: true
+
+* pymdownx.highlight:
+  anchor_linenums: true
+
+* pymdownx.superfences
+
+* pymdownx.inlinehilite
+
+* pymdownx.snippets
+
+* pymdownx.details
+
+* pymdownx.tabbed:
+  alternate_style: true
+
+nav:
+
+* Home: index.md
+* Documentation:
+
+  * Layered State Machine: documentation.md

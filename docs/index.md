@@ -7,6 +7,7 @@
 4. [Subscribing vs Setting States](#subscribing-vs-setting-states)
 5. [State Bindings](#state-bindings)
 6. [Built-in Bindings](#built-in-bindings)
+6. [Built-in Conditions](#built-in-conditions)
 7. [Illegal States & Weight System](#illegal-states--weight-system)
 8. [Cooldown & Buffer](#cooldown--buffer)
 9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
@@ -202,6 +203,22 @@ Prefer `ConditionBinding` over a raw `StateBinding` subclass when the same condi
 
 ---
 
+### `BindingFolder`
+
+Groups multiple bindings together with AND logic — all must be true for the state to activate.
+
+```csharp
+new BindingFolder(new List<StateBinding>
+{
+    new InputBinding(input.actions["RightClick"]),
+    new InputBinding(input.actions["Aim"])
+})
+// Transcript: "RightClick is Pressed., Aim is Pressed."
+```
+
+---
+
+## Built-in Conditions
 ### `AlwaysCondition`
 
 A built-in `Condition` that always returns `true`. Useful for states that should activate unconditionally as soon as they are subscribed.
@@ -222,21 +239,6 @@ new ConditionBinding(new ContainStateCondition(new FocusedState()))
 
 // activates when FocusedState is NOT active
 new ConditionBinding(new ContainStateCondition(new FocusedState(), desiredResult: false))
-```
-
----
-
-### `BindingFolder`
-
-Groups multiple bindings together with AND logic — all must be true for the state to activate.
-
-```csharp
-new BindingFolder(new List<StateBinding>
-{
-    new InputBinding(input.actions["RightClick"]),
-    new InputBinding(input.actions["Aim"])
-})
-// Transcript: "RightClick is Pressed., Aim is Pressed."
 ```
 
 ---
