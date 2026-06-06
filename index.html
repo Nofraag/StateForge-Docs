@@ -1442,9 +1442,9 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">stateDuration</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0f</span><span class="p">,</span><span class="w">                             </span><span class="c1">// how long the state stays active (0 = forever)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">singularUse</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// remove after one Update tick?</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="n">destroyOnRemoval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// permanently remove on deactivation?</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="n">respectWeight</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w">                           </span><span class="c1">// participate in illegal state weight battles?</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="n">respectWeight</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w">                           </span><span class="c1">// participate in illegal state weight resolution?</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">oneWay</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// once activated, never removed by bindings?</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">overwrite</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// overwrite if same state is already subscribed?</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">overwrite</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">                          </span><span class="c1">// overwrite if the same state is already subscribed?</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
 </code></pre></div>
 <blockquote>
@@ -1472,7 +1472,7 @@
 <p>Activates a state directly without any binding. The second parameter controls whether the weight system applies.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">SetState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">(),</span><span class="w"> </span><span class="n">respectWeight</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">);</span>
 </code></pre></div>
-<p>Use this for states you want full manual control over, like a cutscene state or a death state.</p>
+<p>Use this for states you want full manual control over, such as a cutscene state or a death state.</p>
 <hr />
 <h2 id="state-bindings">State Bindings<a class="headerlink" href="#state-bindings" title="Permanent link">&para;</a></h2>
 <p>A <code>StateBinding</code> is a condition evaluated every Update to decide whether a subscribed state should be active. To create a custom binding, inherit from <code>StateBinding</code> and implement two methods:</p>
@@ -1509,7 +1509,7 @@
 <p>Requires the <strong>Unity Input System</strong> package.</p>
 <hr />
 <h3 id="conditionbinding"><code>ConditionBinding</code><a class="headerlink" href="#conditionbinding" title="Permanent link">&para;</a></h3>
-<p>Delegates to a <code>Condition</code> class you implement yourself. Useful when the logic is complex or needs to be reused across multiple states.</p>
+<p>Delegates evaluation to a <code>Condition</code> class you implement. Useful when the logic is complex or needs to be reused across multiple states.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LowHealthCondition</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Condition</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">Evaluate</span><span class="p">(</span><span class="n">StateMachine</span><span class="w"> </span><span class="n">machine</span><span class="p">)</span>
@@ -1571,10 +1571,10 @@
 - <code>SprintingState</code> (0.6) <strong>&gt;</strong> <code>FocusedState</code> (0.5) → Sprinting wins, Focused is removed.
 - If the weights were reversed, Sprinting would be blocked entirely.</p>
 <blockquote>
-<p>You only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active together.</p>
+<p>You only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active at the same time.</p>
 </blockquote>
 <h3 id="bypassing-the-weight-system">Bypassing the weight system<a class="headerlink" href="#bypassing-the-weight-system" title="Permanent link">&para;</a></h3>
-<p>Set <code>respectWeight = false</code> on a <code>StateEntry</code> to make a state activate regardless of conflicts. It will never be blocked or removed by illegal state logic.</p>
+<p>Set <code>respectWeight = false</code> on a <code>StateEntry</code> to make a state activate regardless of conflicts. It will never be blocked or removed by weight resolution.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
@@ -1604,7 +1604,7 @@
 </code></pre></div>
 <p>Good for: attacks, rolls, any action where early input should still register.</p>
 <h3 id="stateduration"><code>stateDuration</code><a class="headerlink" href="#stateduration" title="Permanent link">&para;</a></h3>
-<p>The state automatically removes itself after this many seconds of being active. Set to <code>0</code> (default) for no automatic removal.</p>
+<p>The state automatically removes itself after this many seconds. Set to <code>0</code> (default) for no automatic removal.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">new</span><span class="w"> </span><span class="n">StateEntry</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="p">{</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">bindings</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StateBinding</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">},</span>
@@ -1672,7 +1672,7 @@
 <p>To remove a specific binding you need a reference to the original binding instance, not a new one.</p>
 </blockquote>
 <h3 id="unsubscribestate"><code>UnsubscribeState</code><a class="headerlink" href="#unsubscribestate" title="Permanent link">&para;</a></h3>
-<p>Removes the state from the machine entirely. If it's currently active, it will also be deactivated.</p>
+<p>Removes the state from the machine entirely. If it is currently active, it will also be deactivated.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">UnsubscribeState</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FocusedState</span><span class="p">());</span>
 </code></pre></div>
 <h3 id="clearallstates"><code>ClearAllStates</code><a class="headerlink" href="#clearallstates" title="Permanent link">&para;</a></h3>
@@ -1683,7 +1683,7 @@
 <p>Good for: scene transitions, player death, respawn.</p>
 <hr />
 <h2 id="statequery-events">StateQuery &amp; Events<a class="headerlink" href="#statequery-events" title="Permanent link">&para;</a></h2>
-<p>Every state activation, deactivation, and failure fires an <code>OnStateChanged</code> event with a <code>StateQuery</code> value explaining exactly what happened.</p>
+<p>Every state activation, deactivation, and failure fires an <code>OnStateChanged</code> event with a <code>StateQuery</code> value explaining what happened.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">stateMachine</span><span class="p">.</span><span class="n">OnStateChanged</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="p">{</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">    </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;{state.GetType().Name}: {query}&quot;</span><span class="p">);</span>
@@ -1716,11 +1716,11 @@
 </tr>
 <tr>
 <td><code>NotActive</code></td>
-<td><code>RemoveState</code> was called but the state wasn't active</td>
+<td><code>RemoveState</code> was called but the state was not active</td>
 </tr>
 <tr>
 <td><code>OnCooldown</code></td>
-<td><code>SetState</code> was blocked because the cooldown hasn't expired</td>
+<td><code>SetState</code> was blocked because the cooldown has not expired</td>
 </tr>
 <tr>
 <td><code>BlockedByWeight</code></td>
@@ -1769,7 +1769,7 @@
 <td>All states active right now, with weight, illegal states, elapsed duration, and max duration</td>
 </tr>
 <tr>
-<td><code>signedState</code></td>
+<td><code>subscribedStates</code></td>
 <td>All subscribed states, with bindings, cooldown, buffer, duration, and all flags</td>
 </tr>
 <tr>
@@ -1867,7 +1867,7 @@
 <td><code>singularUse</code></td>
 <td><code>bool</code></td>
 <td><code>false</code></td>
-<td>If <code>true</code>, state runs <code>OnUpdate</code> once then removes itself</td>
+<td>If <code>true</code>, the state runs <code>OnUpdate</code> once then removes itself</td>
 </tr>
 <tr>
 <td><code>destroyOnRemoval</code></td>
@@ -1879,7 +1879,7 @@
 <td><code>respectWeight</code></td>
 <td><code>bool</code></td>
 <td><code>true</code></td>
-<td>If <code>false</code>, state ignores illegal state weight battles entirely</td>
+<td>If <code>false</code>, the state ignores illegal state weight resolution entirely</td>
 </tr>
 <tr>
 <td><code>oneWay</code></td>
