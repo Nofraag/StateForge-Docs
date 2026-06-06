@@ -7,13 +7,13 @@
 4. [Subscribing vs Setting States](#subscribing-vs-setting-states)
 5. [State Bindings](#state-bindings)
 6. [Built-in Bindings](#built-in-bindings)
-6. [Built-in Conditions](#built-in-conditions)
-7. [Illegal States & Weight System](#illegal-states--weight-system)
-8. [Cooldown & Buffer](#cooldown--buffer)
-9. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
-10. [StateQuery & Events](#statequery--events)
-11. [The Inspector](#the-inspector)
-12. [API Reference](#api-reference)
+7. [Built-in Conditions](#built-in-conditions)
+8. [Illegal States & Weight System](#illegal-states--weight-system)
+9. [Cooldown & Buffer](#cooldown--buffer)
+10. [Managing Bindings at Runtime](#managing-bindings-at-runtime)
+11. [StateQuery & Events](#statequery--events)
+12. [The Inspector](#the-inspector)
+13. [API Reference](#api-reference)
 
 ---
 
@@ -81,9 +81,9 @@ new StateEntry
     stateDuration    = 0f,                             // how long the state stays active (0 = forever)
     singularUse      = false,                          // remove after one Update tick?
     destroyOnRemoval = false,                          // permanently remove on deactivation?
-    respectWeight    = true,                           // participate in illegal state weight battles?
+    respectWeight    = true,                           // participate in illegal state weight resolution?
     oneWay           = false,                          // once activated, never removed by bindings?
-    overwrite        = false,                          // overwrite if same state is already subscribed?
+    overwrite        = false,                          // overwrite if the same state is already subscribed?
 }
 ```
 
@@ -124,7 +124,7 @@ Activates a state directly without any binding. The second parameter controls wh
 stateMachine.SetState(new FocusedState(), respectWeight: true);
 ```
 
-Use this for states you want full manual control over, like a cutscene state or a death state.
+Use this for states you want full manual control over, such as a cutscene state or a death state.
 
 ---
 
@@ -182,7 +182,7 @@ Requires the **Unity Input System** package.
 
 ### `ConditionBinding`
 
-Delegates to a `Condition` class you implement yourself. Useful when the logic is complex or needs to be reused across multiple states.
+Delegates evaluation to a `Condition` class you implement. Useful when the logic is complex or needs to be reused across multiple states.
 
 ```csharp
 public class LowHealthCondition : Condition
@@ -219,6 +219,7 @@ new BindingFolder(new List<StateBinding>
 ---
 
 ## Built-in Conditions
+
 ### `AlwaysCondition`
 
 A built-in `Condition` that always returns `true`. Useful for states that should activate unconditionally as soon as they are subscribed.
@@ -268,11 +269,11 @@ If `SprintingState` tries to activate while `FocusedState` is active:
 - `SprintingState` (0.6) **>** `FocusedState` (0.5) → Sprinting wins, Focused is removed.
 - If the weights were reversed, Sprinting would be blocked entirely.
 
-> You only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active together.
+> You only need to declare the conflict on one side. If either state lists the other as illegal, they can never be active at the same time.
 
 ### Bypassing the weight system
 
-Set `respectWeight = false` on a `StateEntry` to make a state activate regardless of conflicts. It will never be blocked or removed by illegal state logic.
+Set `respectWeight = false` on a `StateEntry` to make a state activate regardless of conflicts. It will never be blocked or removed by weight resolution.
 
 ```csharp
 new StateEntry
@@ -319,7 +320,7 @@ Good for: attacks, rolls, any action where early input should still register.
 
 ### `stateDuration`
 
-The state automatically removes itself after this many seconds of being active. Set to `0` (default) for no automatic removal.
+The state automatically removes itself after this many seconds. Set to `0` (default) for no automatic removal.
 
 ```csharp
 new StateEntry
@@ -421,7 +422,7 @@ stateMachine.RemoveBindings(
 
 ### `UnsubscribeState`
 
-Removes the state from the machine entirely. If it's currently active, it will also be deactivated.
+Removes the state from the machine entirely. If it is currently active, it will also be deactivated.
 
 ```csharp
 stateMachine.UnsubscribeState(new FocusedState());
@@ -442,7 +443,7 @@ Good for: scene transitions, player death, respawn.
 
 ## StateQuery & Events
 
-Every state activation, deactivation, and failure fires an `OnStateChanged` event with a `StateQuery` value explaining exactly what happened.
+Every state activation, deactivation, and failure fires an `OnStateChanged` event with a `StateQuery` value explaining what happened.
 
 ```csharp
 stateMachine.OnStateChanged += (state, query) =>
@@ -459,8 +460,8 @@ stateMachine.OnStateChanged += (state, query) =>
 | `SuccessfullyRemoved` | State was deactivated |
 | `RemovedByWeight` | State was removed because a higher-weight conflicting state won |
 | `AlreadyActive` | `SetState` was called but the state was already active |
-| `NotActive` | `RemoveState` was called but the state wasn't active |
-| `OnCooldown` | `SetState` was blocked because the cooldown hasn't expired |
+| `NotActive` | `RemoveState` was called but the state was not active |
+| `OnCooldown` | `SetState` was blocked because the cooldown has not expired |
 | `BlockedByWeight` | `SetState` was blocked by a higher-weight conflicting state |
 
 ### Subscribe events
@@ -488,7 +489,7 @@ The `StateMachine` component includes a custom inspector visible during Play Mod
 | Tab | What it shows |
 |---|---|
 | `currentStates` | All states active right now, with weight, illegal states, elapsed duration, and max duration |
-| `signedState` | All subscribed states, with bindings, cooldown, buffer, duration, and all flags |
+| `subscribedStates` | All subscribed states, with bindings, cooldown, buffer, duration, and all flags |
 | `statesHistory` | A rolling log (last 75 entries) of every state activation and deactivation with timestamps |
 | `subscribeHistory` | A rolling log (last 75 entries) of every subscribe and unsubscribe event |
 
@@ -519,9 +520,9 @@ Each entry is expandable and shows the full details of that state or event.
 | `cooldownDuration` | `float` | `0` | Seconds before the state can activate again after deactivation |
 | `bufferDuration` | `float` | `0` | Seconds input is buffered while on cooldown |
 | `stateDuration` | `float` | `0` | Seconds the state stays active before auto-removal (0 = no limit) |
-| `singularUse` | `bool` | `false` | If `true`, state runs `OnUpdate` once then removes itself |
+| `singularUse` | `bool` | `false` | If `true`, the state runs `OnUpdate` once then removes itself |
 | `destroyOnRemoval` | `bool` | `false` | If `true`, permanently removes the state from `subscribedStates` on deactivation |
-| `respectWeight` | `bool` | `true` | If `false`, state ignores illegal state weight battles entirely |
+| `respectWeight` | `bool` | `true` | If `false`, the state ignores illegal state weight resolution entirely |
 | `oneWay` | `bool` | `false` | If `true`, bindings can activate the state but never deactivate it |
 | `overwrite` | `bool` | `false` | If `true`, re-subscribing a state replaces the existing entry instead of being discarded |
 
